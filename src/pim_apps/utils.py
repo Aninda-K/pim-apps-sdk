@@ -1,5 +1,6 @@
 import csv
 import os
+import json
 import tempfile
 import zipfile
 import requests
@@ -341,7 +342,13 @@ class Dict2Class(object):
 
 def slack_notifier(channel="#infinity-template-jobs", title="Pepper-X App Alert",
                    header="New Pepper-X App User installed", parameters={}):
-    url = "https://hooks.slack.com/services/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"
+    
+    channel_url_map = {"pim-apps-installations":"https://hooks.slack.com/services/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",
+    "pim-apps-enrichments":"https://hooks.slack.com/services/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",
+    "pim-apps-marketplaces":"https://hooks.slack.com/services/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",
+    "pim-apps-plugins":"https://hooks.slack.com/services/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",
+    }
+    url = channel_url_map[channel]
 
     payload = {
         "channel": channel,
@@ -377,3 +384,4 @@ def slack_notifier(channel="#infinity-template-jobs", title="Pepper-X App Alert"
     response = requests.request("POST", url, headers=headers, data=payload)
 
     print(response.text)
+
